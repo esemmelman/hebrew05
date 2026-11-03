@@ -1,8 +1,9 @@
 const groups = [
   { sound: 'ah', example: 'as in father', vowels: [['ַ', 'Patach'], ['ָ', 'Kamatz'], ['ֲ', 'Hataf patach']] },
-  { sound: 'eh', example: 'as in bed', vowels: [['ֶ', 'Segol'], ['ֵ', 'Tsere'], ['ֱ', 'Hataf segol']] },
-  { sound: 'ee', example: 'as in see', vowels: [['ִ', 'Hiriq'], ['ִי', 'Hiriq with yod']] },
-  { sound: 'oh', example: 'as in go', vowels: [['ֹ', 'Holam'], ['וֹ', 'Holam with vav'], ['ׇ', 'Kamatz katan'], ['ֳ', 'Hataf kamatz']] },
+  { sound: 'eh', example: 'as in bed', vowels: [['ֶ', 'Segol'], ['ֱ', 'Hataf segol']] },
+  { sound: 'ai', example: 'as in say', vowels: [['ֵ', 'Tsere']] },
+  { sound: 'ee', example: 'as in see', vowels: [['ִ', 'Hiriq']] },
+  { sound: 'oh', example: 'as in go', vowels: [['ֹ', 'Holam'], ['וֹ', 'Holam with vav'], ['ֳ', 'Hataf kamatz']] },
   { sound: 'oo', example: 'as in food', vowels: [['ֻ', 'Kubutz'], ['וּ', 'Shuruk']] }
 ];
 const container = document.querySelector('#groups');
@@ -23,10 +24,8 @@ function render() {
       mark.className = 'mark';
       mark.lang = 'he';
       mark.textContent = /^[\u05D0-\u05EA]/u.test(sign) ? sign : '◌' + sign;
-      const caption = document.createElement('span');
-      caption.className = 'name';
-      caption.textContent = name;
-      item.append(mark, caption);
+      mark.setAttribute('aria-label', name);
+      item.append(mark);
       vowels.append(item);
     }
     row.append(sound, vowels);
