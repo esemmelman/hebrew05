@@ -34,3 +34,43 @@ function render() {
 }
 
 render();
+
+const practiceVowels = groups.flatMap(group => group.vowels.map(([sign, name]) => ({ sign, name, sound: group.sound })));
+const pageList = document.querySelector('#page-list');
+const firstPage = document.querySelector('#first-page');
+const secondPage = document.querySelector('#second-page');
+const practiceCard = document.querySelector('#practice-card');
+const practiceContent = document.querySelector('#practice-content');
+let currentVowel = -1;
+let revealed = false;
+
+function nextVowel() {
+  // Pick from the other vowels so Next always changes the displayed sign.
+  const choices = practiceVowels.map((_, index) => index).filter(index => index !== currentVowel);
+  currentVowel = choices[Math.floor(Math.random() * choices.length)];
+  revealed = false;
+  const vowel = practiceVowels[currentVowel];
+  practiceContent.textContent = /^[\u05D0-\u05EA]/u.test(vowel.sign) ? vowel.sign : '◌' + vowel.sign;
+  practiceContent.lang = 'he';
+  practiceCard.classList.remove('revealed');
+  practiceCard.setAttribute('aria-label', `${vowel.name}: click to reveal English sound`);
+}
+
+pageList.addEventListener('change', () => {
+  const practice = pageList.value === 'second';
+  firstPage.hidden = practice;
+  secondPage.hidden = !practice;
+  if (practice) nextVowel();
+});
+
+practiceCard.addEventListener('click', () => {
+  if (revealed) return;
+  revealed = true;
+  const vowel = practiceVowels[currentVowel];
+  practiceContent.textContent = vowel.sound;
+  practiceContent.lang = 'en';
+  practiceCard.classList.add('revealed');
+  practiceCard.setAttribute('aria-label', `English sound: ${vowel.sound}`);
+});
+
+document.querySelector('#next-vowel').addEventListener('click', nextVowel);
