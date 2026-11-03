@@ -35,6 +35,10 @@ function render() {
 
 render();
 
+document.querySelector('#show-vowels').addEventListener('change', event => {
+  container.classList.toggle('vowels-hidden', !event.target.checked);
+});
+
 const practiceVowels = groups.flatMap(group => group.vowels.map(([sign, name]) => ({ sign, name, sound: group.sound })));
 const pageList = document.querySelector('#page-list');
 const firstPage = document.querySelector('#first-page');

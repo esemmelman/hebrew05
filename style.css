@@ -20,3 +20,12 @@ button:focus-visible,select:focus-visible{outline:3px solid #3367b3;outline-offs
 #practice-content{display:block;max-width:100%;max-height:100%;overflow:visible;pointer-events:none;fill:currentColor}
 #next-vowel{position:absolute;right:0;top:50%;transform:translateY(-50%)}
 @media(max-width:700px){#page-list{height:180px}.practice{min-height:calc(100dvh - 56px)}#practice-card{width:calc(100% - 120px);height:320px;padding:8px}}
+/* First-page vowel visibility slider; headers and column sizes stay in place. */
+.vowel-toggle{display:flex;align-items:center;gap:10px;width:max-content;margin:0 0 24px;cursor:pointer;font:16px 'Segoe UI',Arial,sans-serif;position:relative}
+.vowel-toggle input{position:absolute;opacity:0;width:44px;height:24px;margin:0}
+.toggle-track{display:block;width:44px;height:24px;border-radius:14px;background:#aaa;position:relative;transition:background .15s}
+.toggle-track::after{content:'';position:absolute;left:3px;top:3px;width:18px;height:18px;background:white;border-radius:50%;box-shadow:0 1px 3px #0003;transition:transform .15s}
+.vowel-toggle input:checked+.toggle-track{background:#3367b3}
+.vowel-toggle input:checked+.toggle-track::after{transform:translateX(20px)}
+.vowel-toggle input:focus-visible+.toggle-track{outline:3px solid #3367b3;outline-offset:4px}
+.vowels-hidden .vowels{visibility:hidden}
