@@ -13,3 +13,10 @@ main{flex:1;min-width:0;width:calc(100% - 104px)}
 #next-vowel:active{border-style:inset}
 button:focus-visible,select:focus-visible{outline:3px solid #3367b3;outline-offset:4px}
 @media(max-width:700px){.sidebar{flex-basis:80px;padding:12px 6px}#page-list{width:68px;font-size:14px}main{width:calc(100% - 80px)}.practice{grid-template-columns:minmax(0,1fr) 64px;gap:4px;padding:0}#practice-card{font-size:clamp(100px,25vw,180px);padding:4px}#practice-card.revealed{font-size:clamp(70px,18vw,140px)}#next-vowel{font-size:16px;padding:8px}}
+/* Keep the visible vowel centered and its full area clickable. */
+#page-list{height:180px}
+.practice{position:relative;display:flex;justify-content:center;align-items:center;min-height:calc(100dvh - 88px);padding:0}
+#practice-card{display:grid;place-items:center;width:min(440px,calc(100% - 160px));height:440px;padding:24px;position:relative;overflow:visible;flex:none}
+#practice-content{display:block;max-width:100%;max-height:100%;overflow:visible;pointer-events:none;fill:currentColor}
+#next-vowel{position:absolute;right:0;top:50%;transform:translateY(-50%)}
+@media(max-width:700px){#page-list{height:180px}.practice{min-height:calc(100dvh - 56px)}#practice-card{width:calc(100% - 120px);height:320px;padding:8px}}

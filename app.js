@@ -44,14 +44,35 @@ const practiceContent = document.querySelector('#practice-content');
 let currentVowel = -1;
 let revealed = false;
 
+// Use the ink bounds, rather than a text baseline, to center even below-letter marks.
+function showPracticeText(value, english = false) {
+  const font = english ? '240px Arial' : '360px "Times New Roman"';
+  const context = document.createElement('canvas').getContext('2d');
+  context.font = font;
+  const bounds = context.measureText(value);
+  const left = bounds.actualBoundingBoxLeft;
+  const top = bounds.actualBoundingBoxAscent;
+  const width = Math.max(1, left + bounds.actualBoundingBoxRight);
+  const height = Math.max(1, top + bounds.actualBoundingBoxDescent);
+  const padding = 10;
+  practiceContent.setAttribute('viewBox', `${-left - padding} ${-top - padding} ${width + padding * 2} ${height + padding * 2}`);
+  practiceContent.style.width = `${width + padding * 2}px`;
+  practiceContent.style.height = `${height + padding * 2}px`;
+  const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  text.setAttribute('x', '0');
+  text.setAttribute('y', '0');
+  text.style.font = font;
+  text.textContent = value;
+  practiceContent.replaceChildren(text);
+}
+
 function nextVowel() {
   // Pick from the other vowels so Next always changes the displayed sign.
   const choices = practiceVowels.map((_, index) => index).filter(index => index !== currentVowel);
   currentVowel = choices[Math.floor(Math.random() * choices.length)];
   revealed = false;
   const vowel = practiceVowels[currentVowel];
-  practiceContent.textContent = /^[\u05D0-\u05EA]/u.test(vowel.sign) ? vowel.sign : '◌' + vowel.sign;
-  practiceContent.lang = 'he';
+  showPracticeText(/^[\u05D0-\u05EA]/u.test(vowel.sign) ? vowel.sign : '◌' + vowel.sign);
   practiceCard.classList.remove('revealed');
   practiceCard.setAttribute('aria-label', `${vowel.name}: click to reveal English sound`);
 }
@@ -67,8 +88,7 @@ practiceCard.addEventListener('click', () => {
   if (revealed) return;
   revealed = true;
   const vowel = practiceVowels[currentVowel];
-  practiceContent.textContent = vowel.sound;
-  practiceContent.lang = 'en';
+  showPracticeText(vowel.sound, true);
   practiceCard.classList.add('revealed');
   practiceCard.setAttribute('aria-label', `English sound: ${vowel.sound}`);
 });
