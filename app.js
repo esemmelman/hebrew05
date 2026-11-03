@@ -45,6 +45,7 @@ const firstPage = document.querySelector('#first-page');
 const secondPage = document.querySelector('#second-page');
 const practiceCard = document.querySelector('#practice-card');
 const practiceContent = document.querySelector('#practice-content');
+const positionHint = document.querySelector('#position-hint');
 let currentVowel = -1;
 let revealed = false;
 
@@ -76,9 +77,12 @@ function nextVowel() {
   currentVowel = choices[Math.floor(Math.random() * choices.length)];
   revealed = false;
   const vowel = practiceVowels[currentVowel];
+  const position = vowel.name === 'Hiriq' ? 'bottom' : vowel.name.startsWith('Holam') ? 'top' : '';
+  positionHint.textContent = position ? `(${position})` : '';
+  positionHint.hidden = !position;
   showPracticeText(/^[\u05D0-\u05EA]/u.test(vowel.sign) ? vowel.sign : '◌' + vowel.sign);
   practiceCard.classList.remove('revealed');
-  practiceCard.setAttribute('aria-label', `${vowel.name}: click to reveal English sound`);
+  practiceCard.setAttribute('aria-label', `${vowel.name}${position ? ` (${position})` : ''}: click to reveal English sound`);
 }
 
 pageList.addEventListener('change', () => {
@@ -91,6 +95,7 @@ pageList.addEventListener('change', () => {
 practiceCard.addEventListener('click', () => {
   if (revealed) return;
   revealed = true;
+  positionHint.hidden = true;
   const vowel = practiceVowels[currentVowel];
   showPracticeText(vowel.sound, true);
   practiceCard.classList.add('revealed');

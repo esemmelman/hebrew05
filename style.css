@@ -29,3 +29,6 @@ button:focus-visible,select:focus-visible{outline:3px solid #3367b3;outline-offs
 .vowel-toggle input:checked+.toggle-track::after{transform:translateX(20px)}
 .vowel-toggle input:focus-visible+.toggle-track{outline:3px solid #3367b3;outline-offset:4px}
 .vowels-hidden .vowels{visibility:hidden}
+.practice-symbol{position:relative;display:grid;place-items:center;max-width:100%;max-height:100%;pointer-events:none;direction:ltr}
+#position-hint{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:16px;white-space:nowrap;font:24px Arial,Helvetica,sans-serif;color:#444}
+@media(max-width:700px){#position-hint{font-size:16px;margin-left:6px}}
